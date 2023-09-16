@@ -20,6 +20,7 @@ const getDocuments = async (id: string) => {
   return await prisma.document.findMany({
     where: {
       userId: id,
+      folderId: null,
     },
   });
 };
@@ -37,10 +38,10 @@ export default async function Sidebar() {
   const [folders, documents] = await Promise.all([folderData, documentData]);
 
   return (
-    <div className="flex h-screen max-h-screen w-full max-w-[16rem] flex-col justify-between border-r border-border px-4 py-8">
+    <div className="hidden h-screen max-h-screen w-full max-w-[16rem] flex-col justify-between border-r border-border px-4 py-8 md:!flex">
       <div className="flex flex-col items-start">
         <Link href="/">
-          <div className="h-7 bg-gradient-to-r from-foreground via-primary to-primary bg-clip-text text-xl font-semibold text-transparent">
+          <div className="h-7 bg-gradient-to-br from-foreground  to-primary bg-clip-text text-xl font-semibold text-transparent">
             Visionary
           </div>
         </Link>

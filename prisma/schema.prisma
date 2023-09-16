@@ -24,11 +24,12 @@ model Folder {
 }
 
 model Document {
-  id       String  @id @default(cuid())
-  title    String
-  content  String
-  folder   Folder? @relation(fields: [folderId], references: [id])
-  folderId String?
-  user     User    @relation(fields: [userId], references: [id])
-  userId   String
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  folder    Folder?  @relation(fields: [folderId], references: [id])
+  folderId  String?
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
 }
