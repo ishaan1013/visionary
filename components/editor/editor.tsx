@@ -23,9 +23,6 @@ export default function EditorComponent({
         },
       }}
       onDebouncedUpdate={(e) => {
-        // console.log(localStorage.getItem("novel__content"))
-        e?.commands.setContent(JSON.parse(data.content));
-
         const content = localStorage.getItem("novel__content");
         if (content) mutate({ content });
       }}
