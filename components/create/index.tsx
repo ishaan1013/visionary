@@ -31,7 +31,7 @@ export default function CreateNote() {
       >
         <ChevronLeft className="mr-1.5 h-4 w-4" /> Back
       </Button>
-      <VideoRecorder theme={theme} />
+      <VideoRecorder theme={theme} desc={desc} />
     </>
   );
 }
