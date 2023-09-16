@@ -8,6 +8,7 @@ import VideoRecorder from "../videorecorder";
 
 export default function CreateNote() {
   const [recorded, setRecorded] = useState(false);
+  const [theme, setTheme] = useState("");
 
   const goBack = () => {
     setRecorded(false);
@@ -18,7 +19,7 @@ export default function CreateNote() {
       // step 1: record
       <>
         <div className="mb-4 font-bold italic">
-          <VideoRecorder />
+          <VideoRecorder theme={theme} />
         </div>
         <Button onClick={() => setRecorded(true)}>
           Next <ArrowRight className="ml-2 h-4 w-4" />
