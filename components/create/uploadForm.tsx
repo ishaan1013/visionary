@@ -15,21 +15,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, ChevronLeft, Sparkle, Sparkles } from "lucide-react";
-import VideoRecorder from "../videorecorder";
+import { Sparkles } from "lucide-react";
 
 const formSchema = z.object({
   title: z.string().min(1).max(50),
   desc: z.string().max(500),
+  images: z.array(z.string()),
 });
 
-export default function CreateForm({
-  next,
-  setInfo,
-}: {
-  next: () => void;
-  setInfo: (title: string, description: string) => void;
-}) {
+export default function UploadForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,10 +32,7 @@ export default function CreateForm({
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    setInfo(values.title, values.desc);
-    next();
-  }
+  function onSubmit(values: z.infer<typeof formSchema>) {}
 
   return (
     <>
@@ -85,13 +76,31 @@ export default function CreateForm({
               </FormItem>
             )}
           />
-          {/* <Button type="submit">
+          <FormField
+            control={form.control}
+            name="images"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Images to analyze</FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    accept="image/jpg, image/jpeg"
+                    multiple
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Include multiple high-quality images for the best results.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit">
             <Sparkles className="mr-2 h-4 w-4" />
             Generate Notes
-          </Button> */}
-          <Button type="submit">
-            Next Step
-            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </form>
       </Form>
