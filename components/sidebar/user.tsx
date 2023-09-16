@@ -23,7 +23,7 @@ export default function User() {
         <div className="-mb-0.5 w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold">
           {user.fullName}
         </div>
-        <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
+        <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-muted-foreground">
           {user.emailAddresses[0].emailAddress}
         </div>
       </div>

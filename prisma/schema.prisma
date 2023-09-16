@@ -8,10 +8,11 @@ datasource db {
 }
 
 model User {
-  id      String   @id @default(cuid())
-  email   String   @unique
-  name    String?
-  folders Folder[]
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String?
+  folders   Folder[]
+  documents Document[]
 }
 
 model Folder {
@@ -23,9 +24,11 @@ model Folder {
 }
 
 model Document {
-  id       String @id @default(cuid())
+  id       String  @id @default(cuid())
   title    String
   content  String
-  folder   Folder @relation(fields: [folderId], references: [id])
+  folder   Folder? @relation(fields: [folderId], references: [id])
   folderId String
+  user     User    @relation(fields: [userId], references: [id])
+  userId   String
 }

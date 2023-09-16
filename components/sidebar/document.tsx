@@ -10,7 +10,7 @@ export default function Document({ name }: { name: string }) {
     <Button
       variant="ghost"
       onClick={() => setOpen((prev) => !prev)}
-      className="h-8 w-full justify-start p-1 pr-2"
+      className="h-7 w-full justify-start p-1 pr-2"
     >
       <div className="mr-2 aspect-square h-full rounded-sm bg-primary" />
       <span className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-left">
