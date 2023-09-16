@@ -1,0 +1,202 @@
+[
+  {
+    "size": 71390,
+    "text": "Sergei Rachmanino }f",
+    "confidence": 0.609033112387418,
+    "pos": "[[166, 52], [756, 52], [756, 173], [166, 173]]",
+    "autocorrect": {
+      "possibility": "Sergei Rachmaninoff",
+      "confidence": 0.85
+    }
+  },
+  {
+    "size": 15184,
+    "text": "cwrh] Eussian Zexolakbn",
+    "confidence": 0.07343144647110889,
+    "pos": "[[512, 281], [804, 281], [804, 333], [512, 333]]",
+    "autocorrect": {
+      "possibility": "Chopin Russian Sexolakbn",
+      "confidence": 0.2
+    }
+  },
+  {
+    "size": 12480,
+    "text": "P ;uno Cncrh No.Z m Cxior",
+    "confidence": 0.18489060315166012,
+    "pos": "[[283, 538], [603, 538], [603, 577], [283, 577]]",
+    "autocorrect": {
+      "possibility": "Piano Concerto No.2 in C minor",
+      "confidence": 0.8
+    }
+  },
+  {
+    "size": 10848,
+    "text": "Notable Works",
+    "confidence": 0.9067865258801717,
+    "pos": "[[222, 500], [448, 500], [448, 548], [222, 548]]",
+    "autocorrect": {
+      "possibility": "Notable Works",
+      "confidence": 1
+    }
+  },
+  {
+    "size": 7289,
+    "text": "Cencer+ pvanst",
+    "confidence": 0.3259267856998424,
+    "pos": "[[521, 332], [718, 332], [718, 369], [521, 369]]",
+    "autocorrect": {
+      "possibility": "Cancer pianist",
+      "confidence": 0.7
+    }
+  },
+  {
+    "size": 6688,
+    "text": "Bu#} uP wealth",
+    "confidence": 0.26364688490769134,
+    "pos": "[[257, 327], [433, 327], [433, 365], [257, 365]]",
+    "autocorrect": {
+      "possibility": "Built up wealth",
+      "confidence": 0.8
+    }
+  },
+  {
+    "size": 6474,
+    "text": "Style",
+    "confidence": 0.9991790084924054,
+    "pos": "[[213.96320313195125, 368.09025785212214], [317.71390040954844, 384.1693328784942], [308.0367968680487, 436.90974214787786], [203.28609959045158, 420.8306671215058]]",
+    "autocorrect": {
+      "possibility": "Style",
+      "confidence": 1
+    }
+  },
+  {
+    "size": 5967,
+    "text": "Escaped",
+    "confidence": 0.3519890238191413,
+    "pos": "[[253, 280], [370, 280], [370, 331], [253, 331]]",
+    "autocorrect": {
+      "possibility": "Escaped",
+      "confidence": 1
+    }
+  },
+  {
+    "size": 5376,
+    "text": "Rhapsod]",
+    "confidence": 0.38648505823608864,
+    "pos": "[[286, 582], [398, 582], [398, 630], [286, 630]]",
+    "autocorrect": {
+      "possibility": "Rhapsody",
+      "confidence": 0.9
+    }
+  },
+  {
+    "size": 5010,
+    "text": "Efudzs Tableaux",
+    "confidence": 0.6696793145857152,
+    "pos": "[[293, 632], [460, 632], [460, 662], [293, 662]]",
+    "autocorrect": {
+      "possibility": "Etudes Tableaux",
+      "confidence": 0.9
+    }
+  },
+  {
+    "size": 4700,
+    "text": "Lee:",
+    "confidence": 0.5175343751907349,
+    "pos": "[[190, 186], [284, 186], [284, 236], [190, 236]]",
+    "autocorrect": {
+      "possibility": "Lee",
+      "confidence": 1
+    }
+  },
+  {
+    "size": 4515,
+    "text": "Porn in",
+    "confidence": 0.6595588639779664,
+    "pos": "[[242, 239], [347, 239], [347, 282], [242, 282]]",
+    "autocorrect": {
+      "possibility": "Born in",
+      "confidence": 0.9
+    }
+  },
+  {
+    "size": 3648,
+    "text": "Paganini",
+    "confidence": 0.4949076208215099,
+    "pos": "[[551, 578], [647, 578], [647, 616], [551, 616]]",
+    "autocorrect": {
+      "possibility": "Paganini",
+      "confidence": 1
+    }
+  },
+  {
+    "size": 3024,
+    "text": "Eusgu",
+    "confidence": 0.15073544315312357,
+    "pos": "[[359, 247], [443, 247], [443, 283], [359, 283]]",
+    "autocorrect": {
+      "possibility": "Eusebius",
+      "confidence": 0.6
+    }
+  },
+  {
+    "size": 2968,
+    "text": "Dffitw# pi-",
+    "confidence": 0.1985233635485982,
+    "pos": "[[272, 468], [378, 468], [378, 496], [272, 496]]",
+    "autocorrect": {
+      "possibility": "Difficult piano",
+      "confidence": 0.6
+    }
+  },
+  {
+    "size": 2444,
+    "text": "Americ",
+    "confidence": 0.9385115668757265,
+    "pos": "[[410, 290], [504, 290], [504, 316], [410, 316]]",
+    "autocorrect": {
+      "possibility": "America",
+      "confidence": 0.95
+    }
+  },
+  {
+    "size": 1904,
+    "text": "Therte",
+    "confidence": 0.8274766002096582,
+    "pos": "[[446, 580], [514, 580], [514, 608], [446, 608]]",
+    "autocorrect": {
+      "possibility": "Theatre",
+      "confidence": 0.8
+    }
+  },
+  {
+    "size": 1664,
+    "text": "Lush",
+    "confidence": 0.9505017399787903,
+    "pos": "[[270, 430], [322, 430], [322, 462], [270, 462]]",
+    "autocorrect": {
+      "possibility": "Lush",
+      "confidence": 1
+    }
+  },
+  {
+    "size": 1560,
+    "text": "hurhonie,",
+    "confidence": 0.22550098890063086,
+    "pos": "[[331, 435], [409, 435], [409, 455], [331, 455]]",
+    "autocorrect": {
+      "possibility": "Harmonie",
+      "confidence": 0.7
+    }
+  },
+  {
+    "size": 1344,
+    "text": "Wtl]",
+    "confidence": 0.05734748765826225,
+    "pos": "[[434, 470], [490, 470], [490, 494], [434, 494]]",
+    "autocorrect": {
+      "possibility": "Waltz",
+      "confidence": 0.6
+    }
+  }
+]
