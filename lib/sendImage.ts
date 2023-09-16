@@ -1,23 +1,25 @@
-export const sendImage = async (theme: string, blob: Blob) => {
+export const sendImage = async (theme: string, imageSrc: string | null) => {
   try {
-    const buffer = await blob.arrayBuffer();
-    const view = new Uint8Array(buffer);
-    const res = await fetch(
-      "http://https://visionary-backend-px6z5q8n9-ryan-zhu-music.vercel.app/api/text_from_image",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          blob: view,
-          theme: theme,
-        }),
+    const byteCharacters = atob(imageSrc?.split(",")[1]);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const res = await fetch("http://127.0.0.1:5000/api/text_from_image", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        blob: byteArray,
+        theme: theme,
+      }),
+    });
     const data = await res.json();
-    console.log(data);
-  } catch (err) {
-    console.log(err);
+    return data;
+  } catch (err: any) {
+    console.log(err.message);
+    return null;
   }
 };

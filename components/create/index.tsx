@@ -7,25 +7,31 @@ import CreateForm from "./form";
 import VideoRecorder from "../videorecorder";
 
 export default function CreateNote() {
-  const [recorded, setRecorded] = useState(false);
+  const [prep, setPrep] = useState(true);
+  const [theme, setTheme] = useState("");
 
-  const goBack = () => {
-    setRecorded(false);
+  const next = () => {
+    setPrep(false);
   };
 
-  if (!recorded)
+  if (prep)
     return (
-      // step 1: record
       <>
-        <div className="mb-4 font-bold italic">
-          <VideoRecorder />
-        </div>
-        <Button onClick={() => setRecorded(true)}>
-          Next <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+        <CreateForm next={next} />
       </>
     );
 
-  //step 2
-  return <CreateForm goBack={goBack} />;
+  return (
+    <>
+      <Button
+        onClick={() => setPrep(true)}
+        size="sm"
+        variant="secondary"
+        className="mb-4 h-8 pl-2"
+      >
+        <ChevronLeft className="mr-1.5 h-4 w-4" /> Back
+      </Button>
+      <VideoRecorder theme={theme} />
+    </>
+  );
 }

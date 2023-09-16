@@ -2,15 +2,24 @@ import React from "react";
 import Webcam from "react-webcam";
 import { useState, useRef } from "react";
 import { Image, StopCircle, Video } from "lucide-react";
+import { sendImage } from "@/lib/sendImage";
 
-export default function VideoRecorder() {
+export default function VideoRecorder({ theme }: { theme: string }) {
   const [on, setOn] = useState(false);
+  const [pictures, setPictures] = useState<any>([]);
+  const [results, setResults] = useState<any>([]);
   const webcamRef = React.useRef<Webcam>(null);
   const capture = React.useCallback(() => {
     if (webcamRef && webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
+      sendImage(theme, imageSrc).then((res) => {
+        setResults([...results, res]);
+      });
+      setPictures([...pictures, imageSrc]);
     }
   }, [webcamRef]);
+  console.log(results);
+  console.log(pictures);
   return (
     <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden">
       {on ? (
@@ -19,7 +28,7 @@ export default function VideoRecorder() {
             className="w-full"
             screenshotFormat="image/jpeg"
             screenshotQuality={1}
-            mirrored={true}
+            mirrored={false}
             audio={true}
             ref={webcamRef}
           />
