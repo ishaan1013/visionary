@@ -37,7 +37,14 @@ export default function VideoRecorder({
   const capture = React.useCallback(() => {
     if (webcamRef && webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
-      sendImage(imageSrc, theme, description).then((res) => {
+      const byteCharacters = atob(imageSrc?.split(",")[1]);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      sendImage(byteArray, theme).then((res: any) => {
+        console.log("response ", res);
         let newResults = [];
         for (let i = 0; i < results.length; i++) {
           if (results[i].text !== res[i].text) {
@@ -46,6 +53,7 @@ export default function VideoRecorder({
             results[i].emphasis = results[i].emphasis + 0.03;
             newResults.push(results[i]);
           }
+          console.log(newResults);
           setResults(newResults);
         }
       });
@@ -56,28 +64,17 @@ export default function VideoRecorder({
   console.log(pictures);
 
   useEffect(() => {
+    let interval: any = null;
     if (on) {
-      const interval = setInterval(() => {
-        console.log("capture");
-        capture();
-      }, 10000); //120000
-      return () => clearInterval(interval);
+      if (!interval) {
+        interval = setInterval(() => {
+          console.log("capture");
+          capture();
+        }, 60000); // every min
+      }
     } else {
-      return;
-    }
-  }, [on]);
-
-  console.log(results);
-  console.log(pictures);
-
-  useEffect(() => {
-    if (on) {
-      const interval = setInterval(() => {
-        console.log("capture");
-        capture();
-      }, 10000); //120000
-      return () => clearInterval(interval);
-    } else {
+      console.log("camera off");
+      clearInterval(interval);
       return;
     }
   }, [on]);
@@ -104,9 +101,7 @@ export default function VideoRecorder({
           <Scan className="mr-2 h-4 w-4" /> Manual Capture
         </Button>
       </div>
-      <div className="w-full text-left text-xl font-semibold">
-        Note Title: {title}
-      </div>
+      <div className="w-full text-left text-xl font-semibold">{title}</div>
       <div className="w-full text-left text-muted-foreground">
         {description ?? "No description provided."}
       </div>

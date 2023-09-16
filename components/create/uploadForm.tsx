@@ -1,9 +1,10 @@
 "use client";
 
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { useDropzone } from "react-dropzone";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,7 +21,7 @@ import { Sparkles } from "lucide-react";
 const formSchema = z.object({
   title: z.string().min(1).max(50),
   desc: z.string().max(500),
-  images: z.array(z.string()),
+  images: z.string(),
 });
 
 export default function UploadForm() {
@@ -31,8 +32,30 @@ export default function UploadForm() {
       desc: "",
     },
   });
+  const [files, setFiles] = useState<any[number]>([]);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {}
+  const onDrop = useCallback((acceptedFiles: any) => {
+    let files: any[number] = [];
+    acceptedFiles.forEach((file: any) => {
+      const reader = new FileReader();
+
+      reader.onabort = () => console.log("file reading was aborted");
+      reader.onerror = () => console.log("file reading has failed");
+      reader.onload = () => {
+        // Do whatever you want with the file contents
+        const buffer = reader.result;
+        files.push(new Uint8Array(buffer));
+      };
+      reader.readAsArrayBuffer(file);
+    });
+    setFiles(files);
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(files);
+  }
 
   return (
     <>
@@ -40,6 +63,7 @@ export default function UploadForm() {
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full max-w-md space-y-4"
+          encType="multipart/form-data"
         >
           <FormField
             control={form.control}
@@ -82,14 +106,22 @@ export default function UploadForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Images to analyze</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    accept="image/jpg, image/jpeg"
-                    multiple
-                    {...field}
-                  />
-                </FormControl>
+                <div {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  {files.length > 0 ? (
+                    <p className="rounded-sm bg-green-100/70 p-2 ring-1 ring-foreground">
+                      {files.length} files selected
+                    </p>
+                  ) : isDragActive ? (
+                    <p className="rounded-sm bg-green-100/70 p-2 ring-1 ring-foreground">
+                      Drop the files here ...
+                    </p>
+                  ) : (
+                    <p className="rounded-sm p-2 ring-1 ring-foreground">
+                      Drag/drop, or click to select files (.jpg, .jpeg)
+                    </p>
+                  )}
+                </div>
                 <FormDescription>
                   Include multiple high-quality images for the best results.
                 </FormDescription>
@@ -97,7 +129,6 @@ export default function UploadForm() {
               </FormItem>
             )}
           />
-
           <Button type="submit">
             <Sparkles className="mr-2 h-4 w-4" />
             Generate Notes
