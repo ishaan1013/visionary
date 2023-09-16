@@ -15,14 +15,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ChevronLeft, Sparkle, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronLeft, Sparkle, Sparkles } from "lucide-react";
+import VideoRecorder from "../videorecorder";
 
 const formSchema = z.object({
-  title: z.string().min(2).max(50),
-  desc: z.string().min(2).max(500),
+  title: z.string().min(1).max(50),
+  desc: z.string().max(500),
 });
 
-export default function CreateForm({ goBack }: { goBack: () => void }) {
+export default function CreateForm({ next }: { next: () => void }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,31 +34,24 @@ export default function CreateForm({ goBack }: { goBack: () => void }) {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    next();
   }
 
   return (
     <>
-      <Button
-        onClick={goBack}
-        size="sm"
-        variant="secondary"
-        className="mb-4 h-8 pl-2"
-      >
-        <ChevronLeft className="mr-1.5 h-4 w-4" /> Back to Record
-      </Button>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full max-w-sm space-y-4"
+          className="w-full max-w-md space-y-4"
         >
           <FormField
             control={form.control}
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>Your note title</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input placeholder="e.g. Algebra lesson 4" {...field} />
                 </FormControl>
                 <FormDescription>Can be changed later.</FormDescription>
                 <FormMessage />
@@ -69,24 +63,29 @@ export default function CreateForm({ goBack }: { goBack: () => void }) {
             name="desc"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>
+                  Description of the topic, lecture, etc. (optional)
+                </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input
+                    placeholder="e.g. The history of ancient Rome"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>
-                  Briefly summarize to assist generation.
+                  Briefly summarize it to assist our analysis.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className="pb-8">
-            <div className="text-sm font-medium">Your Recording</div>
-            <div className="mt-2 aspect-video h-96 rounded-xl bg-green-900"></div>
-          </div>
-          <Button type="submit">
+          {/* <Button type="submit">
             <Sparkles className="mr-2 h-4 w-4" />
             Generate Notes
+          </Button> */}
+          <Button type="submit">
+            Next Step
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </form>
       </Form>
