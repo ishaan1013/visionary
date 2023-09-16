@@ -1,9 +1,7 @@
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
-import { Editor } from "novel";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import NoteEditor from "@/components/editor";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const authUser = await currentUser();
@@ -19,19 +17,20 @@ export default async function Page({ params }: { params: { id: string } }) {
     },
   });
 
+  if (!data) {
+    return (
+      <div className="flex h-full w-full flex-col items-center overflow-y-auto  px-4 py-8 lg:px-8 xl:px-16">
+        <div className="mb-4 text-xl font-semibold">There's nothing here!</div>
+        <div className="text-muted-foreground">
+          Either this note does not exist, or you don't have access to it.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-full w-full flex-col items-center overflow-y-auto  px-4 py-8 lg:px-8 xl:px-16">
-      <div className="mb-4 flex w-full items-center">
-        <Input placeholder="Document Name" />
-      </div>
-      <Editor
-        editorProps={{
-          attributes: {
-            class: "prose-base prose-zinc",
-          },
-        }}
-        className="!font-satoshi w-full border-none bg-transparent p-0 px-8 shadow-none lg:px-4 xl:px-0"
-      />
+      <NoteEditor data={data} />
     </div>
   );
 }
