@@ -1,12 +1,11 @@
 "use client";
 
-import { ArrowRight, ChevronLeft, Sparkle, Sparkles } from "lucide-react";
 import { useState } from "react";
-import { Button } from "../ui/button";
 import CreateForm from "./form";
 import VideoRecorder from "../videorecorder";
+import UploadForm from "./uploadForm";
 
-export default function CreateNote() {
+export default function CreateNote({ upload }: { upload: boolean }) {
   const [prep, setPrep] = useState(true);
   const [theme, setTheme] = useState("");
 
@@ -25,6 +24,14 @@ export default function CreateNote() {
   const back = () => {
     setPrep(true);
   };
+
+  if (upload) {
+    return (
+      <>
+        <UploadForm />
+      </>
+    );
+  }
 
   if (prep)
     return (
