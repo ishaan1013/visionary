@@ -2,8 +2,9 @@ import { ThemeProvider } from "@/components/theme";
 import "./globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { ClerkProvider, currentUser } from "@clerk/nextjs";
+import { ClerkProvider, SignedIn, currentUser } from "@clerk/nextjs";
 import prisma from "@/lib/prisma";
+import Sidebar from "@/components/sidebar";
 
 const satoshi = localFont({
   src: "../public/fonts/Satoshi-Variable.ttf",
@@ -47,7 +48,14 @@ export default async function RootLayout({
       <html lang="en">
         <body className={satoshi.className}>
           <ThemeProvider attribute="class" defaultTheme="light">
-            {children}
+            <main className="flex h-screen w-screen items-start justify-start overflow-hidden">
+              <SignedIn>
+                <Sidebar />
+              </SignedIn>
+              <div className="flex w-full flex-col items-center  px-4 py-8 lg:px-8 xl:px-16">
+                {children}
+              </div>
+            </main>
           </ThemeProvider>
         </body>
       </html>

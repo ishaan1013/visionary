@@ -12,7 +12,10 @@ export default function User() {
 
   return (
     <Link href="/profile">
-      <Button variant="outline" className="h-auto justify-start p-2 text-left">
+      <Button
+        variant="outline"
+        className="h-auto w-full justify-start p-2 text-left"
+      >
         <div className="h-8 w-8 rounded-full bg-primary">
           <Image
             src={user.imageUrl}
