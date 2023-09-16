@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, Sparkle, Sparkles } from "lucide-react";
+import VideoRecorder from "../videorecorder";
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),

@@ -4,6 +4,7 @@ import { ArrowRight, ChevronLeft, Sparkle, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import CreateForm from "./form";
+import VideoRecorder from "../videorecorder";
 
 export default function CreateNote() {
   const [recorded, setRecorded] = useState(false);
@@ -16,7 +17,9 @@ export default function CreateNote() {
     return (
       // step 1: record
       <>
-        <div className="mb-4 font-bold italic">webcam</div>
+        <div className="mb-4 font-bold italic">
+          <VideoRecorder />
+        </div>
         <Button onClick={() => setRecorded(true)}>
           Next <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
