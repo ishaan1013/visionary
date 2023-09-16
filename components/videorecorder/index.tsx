@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Webcam from "react-webcam";
 import { useState, useRef } from "react";
@@ -35,14 +37,36 @@ export default function VideoRecorder({
   const capture = React.useCallback(() => {
     if (webcamRef && webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
-      sendImage(theme, imageSrc).then((res) => {
-        setResults([...results, res]);
+      sendImage(imageSrc, theme, desc).then((res) => {
+        let newResults = [];
+        for (let i = 0; i < results.length; i++) {
+          if (results[i].text !== res[i].text) {
+            newResults.push(res[i]);
+          } else {
+            results[i].emphasis = results[i].emphasis + 0.03;
+            newResults.push(results[i]);
+          }
+          setResults(newResults);
+        }
       });
       setPictures([...pictures, imageSrc]);
     }
   }, [webcamRef]);
   console.log(results);
   console.log(pictures);
+
+  useEffect(() => {
+    if (on) {
+      const interval = setInterval(() => {
+        console.log("capture");
+        capture();
+      }, 10000); //120000
+      return () => clearInterval(interval);
+    } else {
+      return;
+    }
+  }, [on]);
+
   return (
     <div className="flex h-full w-full flex-col items-center justify-start overflow-hidden">
       <div className="mb-4 flex w-full items-center justify-start">
@@ -77,6 +101,8 @@ export default function VideoRecorder({
           <Webcam
             className="w-full"
             screenshotFormat="image/jpeg"
+            minScreenshotWidth={1500}
+            minScreenshotHeight={1500}
             screenshotQuality={1}
             mirrored={false}
             audio={true}

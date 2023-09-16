@@ -1,4 +1,8 @@
-export const sendImage = async (theme: string, imageSrc: string | null) => {
+export const sendImage = async (
+  imageSrc: string | null,
+  theme: string,
+  desc: string,
+) => {
   try {
     const byteCharacters = atob(imageSrc?.split(",")[1]);
     const byteNumbers = new Array(byteCharacters.length);
@@ -14,6 +18,7 @@ export const sendImage = async (theme: string, imageSrc: string | null) => {
       body: JSON.stringify({
         blob: byteArray,
         theme: theme,
+        desc: desc,
       }),
     });
     const data = await res.json();
