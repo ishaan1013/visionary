@@ -10,28 +10,35 @@ export default function CreateNote() {
   const [prep, setPrep] = useState(true);
   const [theme, setTheme] = useState("");
 
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  const setInfo = (title: string, description: string) => {
+    setTitle(title);
+    setDescription(description);
+  };
+
   const next = () => {
     setPrep(false);
+  };
+
+  const back = () => {
+    setPrep(true);
   };
 
   if (prep)
     return (
       <>
-        <CreateForm next={next} />
+        <CreateForm next={next} setInfo={setInfo} />
       </>
     );
 
   return (
-    <>
-      <Button
-        onClick={() => setPrep(true)}
-        size="sm"
-        variant="secondary"
-        className="mb-4 h-8 pl-2"
-      >
-        <ChevronLeft className="mr-1.5 h-4 w-4" /> Back
-      </Button>
-      <VideoRecorder theme={theme} />
-    </>
+    <VideoRecorder
+      title={title}
+      description={description}
+      back={back}
+      theme={theme}
+    />
   );
 }

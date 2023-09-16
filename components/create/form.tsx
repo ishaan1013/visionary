@@ -23,7 +23,13 @@ const formSchema = z.object({
   desc: z.string().max(500),
 });
 
-export default function CreateForm({ next }: { next: () => void }) {
+export default function CreateForm({
+  next,
+  setInfo,
+}: {
+  next: () => void;
+  setInfo: (title: string, description: string) => void;
+}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,7 +39,7 @@ export default function CreateForm({ next }: { next: () => void }) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    setInfo(values.title, values.desc);
     next();
   }
 
