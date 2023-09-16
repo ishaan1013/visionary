@@ -21,10 +21,10 @@ export default function User() {
       </div>
       <div className="ml-3">
         <div className="-mb-0.5 w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold">
-          Ishaan Dey
+          {user.fullName}
         </div>
         <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
-          ishaan1013@gmail.com
+          {user.emailAddresses[0].emailAddress}
         </div>
       </div>
     </Button>
