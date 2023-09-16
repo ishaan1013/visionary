@@ -1,9 +1,7 @@
 "use client";
 
 import { Editor } from "novel";
-import { Input } from "@/components/ui/input";
-import { Document, Prisma } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { Prisma } from "@prisma/client";
 import { Badge } from "../ui/badge";
 import {
   Calendar,
@@ -14,6 +12,11 @@ import {
   Text,
 } from "lucide-react";
 import { Button } from "../ui/button";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import EditorComponent from "./editor";
 
 export default function NoteEditor({
   data,
@@ -22,8 +25,30 @@ export default function NoteEditor({
     include: { folder: true };
   }>;
 }) {
-  // saving state (temporary before adding tanstack-query)
-  const [saved, setSaved] = useState(true);
+  const updateMutation = useMutation({
+    mutationFn: ({ content }: { content: string }) => {
+      return axios.post("/api/editor/update", {
+        id: data.id,
+        content,
+      });
+    },
+    onSuccess: () => {
+      console.log("success");
+    },
+  });
+
+  const router = useRouter();
+  const [editorReady, setEditorReady] = useState(false);
+
+  useEffect(() => {
+    const content = localStorage.getItem("novel__content");
+    if (content !== data.content) {
+      localStorage.setItem("novel__content", data.content);
+    }
+    setTimeout(() => {
+      setEditorReady(true);
+    }, 1000);
+  }, [data]);
 
   return (
     <>
@@ -35,7 +60,7 @@ export default function NoteEditor({
       <div className="flex w-full items-center">
         {data.folder ? (
           <>
-            <div className="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded bg-gradient-to-br from-foreground  to-primary">
+            <div className="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded bg-gradient-to-br from-foreground to-primary">
               <Folder className="h-3.5 w-3.5 text-background" />
             </div>
             <div className="select-none border-b border-transparent py-1 text-sm text-muted-foreground">
@@ -44,7 +69,7 @@ export default function NoteEditor({
             <div className="select-none px-4 text-muted-foreground">/</div>
           </>
         ) : null}
-        <div className="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded bg-primary">
+        <div className="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded bg-gradient-to-tl from-foreground to-primary">
           <Text className="h-3.5 w-3.5 text-background" />
         </div>
         <input
@@ -58,7 +83,7 @@ export default function NoteEditor({
           variant="secondary"
           className="font-medium text-muted-foreground"
         >
-          {saved ? (
+          {!updateMutation.isLoading ? (
             <>
               <Save className="mr-1 h-3.5 w-3.5" />
               Saved
@@ -75,20 +100,16 @@ export default function NoteEditor({
           className="font-medium text-muted-foreground"
         >
           <Calendar className="mr-1 h-3.5 w-3.5" />
-          Created (date)
+          Created {data.createdAt.toLocaleDateString()}
         </Badge>
       </div>
-      <Editor
-        editorProps={{
-          attributes: {
-            class: `prose-base prose prose-zinc prose prose-h1:font-semibold prose-h1:text-3xl prose-h1:mb-0.5 prose-h2:font-semibold  prose-h2:text-2xl prose-h3:font-semibold  prose-h3:text-xl prose-h4:font-medium  prose-h4:text-lg font-satoshi focus:outline-none max-w-full`,
-          },
-        }}
-        onDebouncedUpdate={() =>
-          console.log(localStorage.getItem("novel__content"))
-        }
-        className="prose w-full max-w-full border-none bg-transparent p-0 px-8 shadow-none lg:px-4 xl:px-0"
-      />
+      {editorReady ? (
+        <EditorComponent mutate={updateMutation.mutate} data={data} />
+      ) : (
+        <div className="flex items-center text-muted-foreground">
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading editor...
+        </div>
+      )}
     </>
   );
 }
