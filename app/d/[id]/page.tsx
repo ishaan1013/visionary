@@ -15,6 +15,9 @@ export default async function Page({ params }: { params: { id: string } }) {
       id: params.id,
       userId: authUser.id,
     },
+    include: {
+      folder: true,
+    },
   });
 
   if (!data) {
