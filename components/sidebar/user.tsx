@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useUser } from "@clerk/nextjs";
+import Link from 'next/link';
 
 export default function User() {
   const { user, isLoaded } = useUser();
@@ -10,23 +11,25 @@ export default function User() {
   if (!isLoaded || !user) return null;
 
   return (
-    <Button variant="outline" className="h-auto justify-start p-2 text-left">
-      <div className="h-8 w-8 rounded-full bg-primary">
-        <Image
-          src={user.imageUrl}
-          alt="Profile picture"
-          width={32}
-          height={32}
-        />
-      </div>
-      <div className="ml-3">
-        <div className="-mb-0.5 w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold">
-          Ishaan Dey
+    <Link href="/profile">
+      <Button variant="outline" className="h-auto justify-start p-2 text-left">
+        <div className="h-8 w-8 rounded-full bg-primary">
+          <Image
+            src={user.imageUrl}
+            alt="Profile picture"
+            width={32}
+            height={32}
+          />
         </div>
-        <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
-          ishaan1013@gmail.com
+        <div className="ml-3">
+          <div className="-mb-0.5 w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold">
+            Ishaan Dey
+          </div>
+          <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
+            ishaan1013@gmail.com
+          </div>
         </div>
-      </div>
-    </Button>
+      </Button>
+    </Link>
   );
 }
