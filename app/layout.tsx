@@ -5,6 +5,8 @@ import localFont from "next/font/local";
 import { ClerkProvider, SignedIn, currentUser } from "@clerk/nextjs";
 import prisma from "@/lib/prisma";
 import Sidebar from "@/components/sidebar";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TanStackQueryProvider } from "@/lib/tanstackQueryProvider";
 
 const satoshi = localFont({
   src: "../public/fonts/Satoshi-Variable.ttf",
@@ -48,14 +50,16 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={satoshi.className}>
-          <ThemeProvider attribute="class" defaultTheme="light">
-            <main className="flex h-screen w-screen items-start justify-start overflow-hidden">
-              <SignedIn>
-                <Sidebar />
-              </SignedIn>
-              {children}
-            </main>
-          </ThemeProvider>
+          <TanStackQueryProvider>
+            <ThemeProvider attribute="class" defaultTheme="light">
+              <main className="flex h-screen w-screen items-start justify-start overflow-hidden">
+                <SignedIn>
+                  <Sidebar />
+                </SignedIn>
+                {children}
+              </main>
+            </ThemeProvider>
+          </TanStackQueryProvider>
         </body>
       </html>
     </ClerkProvider>
