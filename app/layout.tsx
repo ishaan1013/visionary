@@ -9,6 +9,7 @@ import Sidebar from "@/components/sidebar";
 const satoshi = localFont({
   src: "../public/fonts/Satoshi-Variable.ttf",
   display: "swap",
+  variable: "--font-satoshi",
 });
 // export const metadata: Metadata = {
 //   title: 'Create Next App',
@@ -52,9 +53,7 @@ export default async function RootLayout({
               <SignedIn>
                 <Sidebar />
               </SignedIn>
-              <div className="flex w-full flex-col items-center  px-4 py-8 lg:px-8 xl:px-16">
-                {children}
-              </div>
+              {children}
             </main>
           </ThemeProvider>
         </body>

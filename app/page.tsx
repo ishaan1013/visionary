@@ -20,7 +20,7 @@ export default async function Page() {
   }
 
   return (
-    <>
+    <div className="flex h-full w-full flex-col items-center overflow-y-auto  px-4 py-8 lg:px-8 xl:px-16">
       <SignedOut>
         <Link href="/sign-up">
           <Button>Sign up</Button>
@@ -29,6 +29,6 @@ export default async function Page() {
           <Button>Log in</Button>
         </Link>
       </SignedOut>
-    </>
+    </div>
   );
 }

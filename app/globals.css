@@ -88,3 +88,7 @@
 .custom-scrollbar::-webkit-scrollbar-button {
   display: none;
 }
+
+.ProseMirror {
+  padding: 0 !important;
+}
