@@ -2,7 +2,7 @@
 
 import React from "react";
 import Webcam from "react-webcam";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Camera,
   CameraOff,
@@ -37,7 +37,7 @@ export default function VideoRecorder({
   const capture = React.useCallback(() => {
     if (webcamRef && webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
-      sendImage(imageSrc, theme, desc).then((res) => {
+      sendImage(imageSrc, theme, description).then((res) => {
         let newResults = [];
         for (let i = 0; i < results.length; i++) {
           if (results[i].text !== res[i].text) {
@@ -52,6 +52,21 @@ export default function VideoRecorder({
       setPictures([...pictures, imageSrc]);
     }
   }, [webcamRef]);
+  console.log(results);
+  console.log(pictures);
+
+  useEffect(() => {
+    if (on) {
+      const interval = setInterval(() => {
+        console.log("capture");
+        capture();
+      }, 10000); //120000
+      return () => clearInterval(interval);
+    } else {
+      return;
+    }
+  }, [on]);
+
   console.log(results);
   console.log(pictures);
 
