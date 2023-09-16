@@ -9,8 +9,9 @@ def generate_notes(data, topic="", description=""):
         topic = f"Topic: {topic}\n"
     if description!="":
         description = f"Description: {topic}\n"
+    
     #write prompt here
-    prompt = F"Generate notes in point-form using the following data as hints about points from the lecture. Consider the following parameters: \"size\" refers to the size and significance of the text, \"confidence\" refers to how likely the extracted text might match the original, and use autocorrect.possibility as the extracted text. {topic} {description} Data: {data}\n"
+    prompt = f"Generate notes in point-form using the following data as hints about points from the lecture. Consider the following parameters: \"size\" refers to the size and significance of the text so phrases with larger size are more important, use autocorrect.possibility as the extracted text, and autocorrect.confidence refers to the probability that text is accurate. \n {topic} {description} Data: {data}\n"
 
     headers = {
     'Authorization': 'BEARER '+config.api_key,
@@ -21,7 +22,7 @@ def generate_notes(data, topic="", description=""):
     json_data = {
     'model': 'command-nightly',
     "prompt": prompt,
-    'max_tokens': 400,
+    'max_tokens': 500,
     'temperature': 0.5,
     'k': 0,
     'stop_sequences': [],
@@ -30,7 +31,6 @@ def generate_notes(data, topic="", description=""):
 
     response = requests.post('https://api.cohere.ai/v1/generate', headers=headers, json=json_data)
     response_dict = json.loads(response.text)
-
     return response_dict["generations"][0]["text"]
 
 
