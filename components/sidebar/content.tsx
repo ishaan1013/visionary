@@ -8,6 +8,8 @@ import Document from "./document";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import CreateDropdown from "./createDropdown";
+import { useQuery } from "@tanstack/react-query";
+import CreateFolder from "./createFolder";
 
 export default function Content({
   folders,
@@ -20,18 +22,27 @@ export default function Content({
   }>[];
   documents: Prisma.DocumentGetPayload<{}>[];
 }) {
+  // const { data, isFetching } = useQuery({
+  //   queryKey: ["folders"],
+  //   queryFn: () => fetch("/folders"),
+  //   initialData: folders,
+  // });
+
   return (
     <>
       <div className="flex h-8 w-full items-center">
         <Separator className="w-auto grow" />
         <CreateDropdown />
-        <Button size="icon" variant="ghost" className="ml-1 h-6 w-6">
-          <FolderPlus className="h-4 w-4" />
-        </Button>
+        <CreateFolder />
       </div>
       <div className="custom-scrollbar max-h-[calc(100vh-196px)] w-full overflow-y-auto">
         {folders.map((folder) => (
-          <Folder key={folder.id} name={folder.name} docs={folder.documents} />
+          <Folder
+            key={folder.id}
+            id={folder.id}
+            name={folder.name}
+            docs={folder.documents}
+          />
         ))}
         {documents.map((document) => (
           <Document key={document.id} id={document.id} name={document.title} />

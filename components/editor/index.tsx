@@ -37,7 +37,6 @@ export default function NoteEditor({
     },
   });
 
-  const router = useRouter();
   const [editorReady, setEditorReady] = useState(false);
 
   useEffect(() => {

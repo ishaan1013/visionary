@@ -9,9 +9,11 @@ import FolderMenu from "./menu";
 
 export default function Folder({
   name,
+  id,
   docs,
 }: {
   name: string;
+  id: string;
   docs: DocumentType[];
 }) {
   const [open, setOpen] = useState(false);
@@ -30,7 +32,7 @@ export default function Folder({
             {name}
           </div>
         </Button>
-        <FolderMenu />
+        <FolderMenu id={id} name={name} />
       </div>
 
       {open ? (
