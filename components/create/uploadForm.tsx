@@ -72,7 +72,18 @@ export default function UploadForm() {
       }),
     });
     const data = await res.text();
-    console.log("data:", data);
+    //convert to json
+    const json = await fetch("http://127.0.0.1:5000/api/generate_json", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        notes: data,
+      }),
+    }).then((res) => res.text());
+    let parsed = JSON.stringify(JSON.parse(json));
+    // SAVE TO DATABASE
   };
 
   return (
