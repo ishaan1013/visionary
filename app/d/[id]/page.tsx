@@ -32,7 +32,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="flex h-full w-full flex-col items-center overflow-y-auto  px-4 py-8 lg:px-8 xl:px-16">
+    <div className="flex h-full w-full flex-col items-center justify-start overflow-y-auto px-4 py-8 lg:px-8 xl:px-16">
       <NoteEditor data={data} />
     </div>
   );

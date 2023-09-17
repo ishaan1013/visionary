@@ -37,15 +37,17 @@ export default function VideoRecorder({
     if (webcamRef && webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
       setPictures((pictures: any) => [...pictures, imageSrc]);
-      const byteCharacters = atob(imageSrc?.split(",")[1]);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      if (imageSrc) {
+        const byteCharacters = atob(imageSrc.split(",")[1]);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        sendImage(byteArray, title).then((res: any) => {
+          setResults((results: any) => [...results, res]);
+        });
       }
-      const byteArray = new Uint8Array(byteNumbers);
-      sendImage(byteArray, title).then((res: any) => {
-        setResults((results: any) => [...results, ...res]);
-      });
     }
   }, [webcamRef]);
 
