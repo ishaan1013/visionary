@@ -92,3 +92,7 @@
 .ProseMirror {
   padding: 0 !important;
 }
+
+.tippy-content > div {
+  height: 36px !important;
+}
