@@ -9,6 +9,7 @@ import {
   ChevronLeft,
   Image,
   Scan,
+  Sparkle,
   StopCircle,
   Video,
   VideoOff,
@@ -20,12 +21,10 @@ import { Switch } from "../ui/switch";
 import { Separator } from "../ui/separator";
 
 export default function VideoRecorder({
-  theme,
   back,
   title,
   description,
 }: {
-  theme: string;
   back: () => void;
   title: string;
   description: string;
@@ -37,31 +36,36 @@ export default function VideoRecorder({
   const capture = React.useCallback(() => {
     if (webcamRef && webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
+      setPictures((pictures: any) => [...pictures, imageSrc]);
       const byteCharacters = atob(imageSrc?.split(",")[1]);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
       const byteArray = new Uint8Array(byteNumbers);
-      sendImage(byteArray, theme).then((res: any) => {
-        console.log("response ", res);
-        let newResults = [];
-        for (let i = 0; i < results.length; i++) {
-          if (results[i].text !== res[i].text) {
-            newResults.push(res[i]);
-          } else {
-            results[i].emphasis = results[i].emphasis + 0.03;
-            newResults.push(results[i]);
-          }
-          console.log(newResults);
-          setResults(newResults);
-        }
+      sendImage(byteArray, title).then((res: any) => {
+        setResults((results: any) => [...results, ...res]);
       });
-      setPictures([...pictures, imageSrc]);
     }
   }, [webcamRef]);
-  console.log(results);
-  console.log(pictures);
+
+  const generate = async () => {
+    const res = await fetch("http://127.0.0.1:5000/api/generate_notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        topic: title,
+        description: description,
+        data: results,
+      }),
+    });
+    const data = await res.text();
+    console.log("data:", data);
+  };
+  console.log("results:", results, results.length);
+  console.log("pics:", pictures, pictures.length);
 
   useEffect(() => {
     let interval: any = null;
@@ -75,6 +79,7 @@ export default function VideoRecorder({
     } else {
       console.log("camera off");
       clearInterval(interval);
+      interval = null;
       return;
     }
   }, [on]);
@@ -100,6 +105,9 @@ export default function VideoRecorder({
         <Button onClick={capture}>
           <Scan className="mr-2 h-4 w-4" /> Manual Capture
         </Button>
+        <Button onClick={generate} className="ml-3">
+          <Sparkle className="mr-2 h-4 w-4" /> Finish
+        </Button>
       </div>
       <div className="w-full text-left text-xl font-semibold">{title}</div>
       <div className="w-full text-left text-muted-foreground">
@@ -111,8 +119,6 @@ export default function VideoRecorder({
           <Webcam
             className="w-full"
             screenshotFormat="image/jpeg"
-            minScreenshotWidth={1500}
-            minScreenshotHeight={1500}
             screenshotQuality={1}
             mirrored={false}
             audio={true}

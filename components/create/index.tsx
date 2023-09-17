@@ -7,7 +7,6 @@ import UploadForm from "./uploadForm";
 
 export default function CreateNote({ upload }: { upload: boolean }) {
   const [prep, setPrep] = useState(true);
-  const [theme, setTheme] = useState("");
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -40,12 +39,5 @@ export default function CreateNote({ upload }: { upload: boolean }) {
       </>
     );
 
-  return (
-    <VideoRecorder
-      title={title}
-      description={description}
-      back={back}
-      theme={theme}
-    />
-  );
+  return <VideoRecorder title={title} description={description} back={back} />;
 }
