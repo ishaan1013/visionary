@@ -11,7 +11,7 @@ def generate_notes(data, topic="", description=""):
         description = f"Description: {topic}\n"
     
     #write prompt here
-    prompt = f"Generate notes in point-form using the following data as hints about points from the lecture. Consider the following parameters: \"size\" refers to the size and significance of the text so phrases with larger size are more important, use autocorrect.possibility as the extracted text, and autocorrect.confidence refers to the probability that text is accurate. \n {topic} {description} Data: {data}\n"
+    prompt = f"Generate notes in point-form using the following data as hints about points from the lecture. Include headers in markdown format. Consider the following parameters: \"size\" refers to the size and significance of the text so phrases with larger size are more important, use autocorrect.possibility as the extracted text, and autocorrect.confidence refers to the probability that text is accurate. \n {topic} {description} Data: {data}\n Output in the format"
 
     headers = {
     'Authorization': 'BEARER '+config.api_key,
@@ -22,8 +22,8 @@ def generate_notes(data, topic="", description=""):
     json_data = {
     'model': 'command-nightly',
     "prompt": prompt,
-    'max_tokens': 500,
-    'temperature': 0.5,
+    'max_tokens': 2048,
+    'temperature': 0.1,
     'k': 0,
     'stop_sequences': [],
     'return_likelihoods': 'NONE',
