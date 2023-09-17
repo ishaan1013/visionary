@@ -33,22 +33,47 @@ def generate_notes(data, topic="", description=""):
     response = requests.post('https://api.cohere.ai/v1/generate', headers=headers, json=json_data)
     response_dict = json.loads(response.text)
     return response_dict["generations"][0]["text"]
+def generate_json(notes, json_format):
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+config.openai_key,
+    }
+
+    json_data = {
+        'model': 'gpt-4',
+        'messages': [
+            {
+                'role': 'user',
+                'content': f'Write the given text in a similar format as the given JSON. Use the markdown header information to determine what text is a header and what size the header should be. \n\nData: \n{notes} \n\nJSON: {json_format}\n',
+            },
+        ],
+        'temperature': 0.5,
+    }
+
+    response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=json_data)
+    response_dict = json.loads(response.text)
+    return(response_dict['choices'][0]['message']['content'])
 
 
-# comment this section out if you dont want the prompt to read from another file and remove +data from prompt variable
-# choose data file
+data_path = 'jsondata\\algebra.txt'
+format_path = 'jsondata\\jsonformat.txt'
 
-file_1_path = 'jsondata\\algebra.txt'
-file_2_path = 'jsondata\\new_note.txt'
-json_data = open(file_1_path,'r')
-new_note = open(file_2_path, 'w')
-datastring = ""
-for line in json_data:
-    datastring = datastring + line
+open_format = open(format_path,'r')
+open_data = open(data_path,'r')
 
-notes = generate_notes(datastring, "abstract algebra and ring theory")
-print(notes)
+data = ""
+format = ""
 
-new_note.write(notes)
-json_data.close()
-new_note.close()
+for line in open_data:
+    data = data + line
+for line in open_format:
+    format = format + line
+
+open_data.close()
+open_format.close()
+
+notes = generate_notes(data, "abstract algebra and ring theory")
+generated_json = generate_json(notes, format)
+
+# print(notes)
+# print(generated_json)
