@@ -17,11 +17,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Sparkles } from "lucide-react";
+import { sendImage } from "@/lib/sendImage";
 
 const formSchema = z.object({
   title: z.string().min(1).max(50),
   desc: z.string().max(500),
-  images: z.string(),
 });
 
 export default function UploadForm() {
@@ -53,9 +53,27 @@ export default function UploadForm() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(files);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    let results: any[] = [];
+    files.forEach((file: Uint8Array) => {
+      sendImage(file, values.title).then((res: any) => {
+        results = [...results, ...res];
+      });
+    });
+    const res = await fetch("http://127.0.0.1:5000/api/generate_notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        topic: values.title,
+        description: values.desc,
+        data: results,
+      }),
+    });
+    const data = await res.text();
+    console.log("data:", data);
+  };
 
   return (
     <>
@@ -100,35 +118,26 @@ export default function UploadForm() {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="images"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Images to analyze</FormLabel>
-                <div {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  {files.length > 0 ? (
-                    <p className="rounded-sm bg-green-100/70 p-2 ring-1 ring-foreground">
-                      {files.length} files selected
-                    </p>
-                  ) : isDragActive ? (
-                    <p className="rounded-sm bg-green-100/70 p-2 ring-1 ring-foreground">
-                      Drop the files here ...
-                    </p>
-                  ) : (
-                    <p className="rounded-sm p-2 ring-1 ring-foreground">
-                      Drag/drop, or click to select files (.jpg, .jpeg)
-                    </p>
-                  )}
-                </div>
-                <FormDescription>
-                  Include multiple high-quality images for the best results.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div>
+            <p>Images to analyze</p>
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              {files.length > 0 ? (
+                <p className="rounded-sm bg-green-100/70 p-2 ring-1 ring-foreground">
+                  {files.length} files selected
+                </p>
+              ) : isDragActive ? (
+                <p className="rounded-sm bg-green-100/70 p-2 ring-1 ring-foreground">
+                  Drop the files here ...
+                </p>
+              ) : (
+                <p className="rounded-sm p-2 ring-1 ring-foreground">
+                  Drag/drop, or click to select files (.jpg, .jpeg)
+                </p>
+              )}
+            </div>
+            <p>Include multiple high-quality images for the best results.</p>
+          </div>
           <Button type="submit">
             <Sparkles className="mr-2 h-4 w-4" />
             Generate Notes
