@@ -18,6 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sparkles } from "lucide-react";
 import { sendImage } from "@/lib/sendImage";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 const formSchema = z.object({
   title: z.string().min(1).max(50),
@@ -34,6 +36,18 @@ export default function UploadForm() {
   });
   const [files, setFiles] = useState<any[number]>([]);
 
+  const createMutation = useMutation({
+    mutationFn: ({ title, content }: { title: string; content: string }) => {
+      return axios.post("/api/create", {
+        title,
+        content,
+      });
+    },
+    onSuccess: () => {
+      console.log("saved");
+    },
+  });
+
   const onDrop = useCallback((acceptedFiles: any) => {
     let files: any[number] = [];
     acceptedFiles.forEach((file: any) => {
@@ -44,7 +58,7 @@ export default function UploadForm() {
       reader.onload = () => {
         // Do whatever you want with the file contents
         const buffer = reader.result;
-        files.push(new Uint8Array(buffer));
+        files.push(new Uint8Array(buffer as ArrayBufferLike));
       };
       reader.readAsArrayBuffer(file);
     });
@@ -83,7 +97,8 @@ export default function UploadForm() {
       }),
     }).then((res) => res.text());
     let parsed = JSON.stringify(JSON.parse(json));
-    // SAVE TO DATABASE
+
+    createMutation.mutate({ title: values.title, content: parsed });
   };
 
   return (

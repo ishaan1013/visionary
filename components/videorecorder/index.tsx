@@ -19,6 +19,8 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 import { Separator } from "../ui/separator";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function VideoRecorder({
   back,
@@ -75,8 +77,20 @@ export default function VideoRecorder({
       }),
     }).then((res) => res.text());
     let parsed = JSON.stringify(JSON.parse(json));
-    // SAVE TO DATABASE
+    createMutation.mutate({ title, content: parsed });
   };
+
+  const createMutation = useMutation({
+    mutationFn: ({ title, content }: { title: string; content: string }) => {
+      return axios.post("/api/create", {
+        title,
+        content,
+      });
+    },
+    onSuccess: () => {
+      console.log("saved");
+    },
+  });
 
   useEffect(() => {
     let interval: any = null;
